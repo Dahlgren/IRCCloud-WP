@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using System.IO.IsolatedStorage;
 
 namespace IRCCloud
 {
@@ -19,11 +20,21 @@ namespace IRCCloud
         public MainPage()
         {
             InitializeComponent();
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("UserName")) {
+                UserNameBox.Text = (String) IsolatedStorageSettings.ApplicationSettings["UserName"];
+            }
+
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("Password"))
+            {
+                PasswordBox.Password = (String) IsolatedStorageSettings.ApplicationSettings["Password"];
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            IsolatedStorageSettings.ApplicationSettings["UserName"] = UserNameBox.Text;
+            IsolatedStorageSettings.ApplicationSettings["Password"] = PasswordBox.Password;
         }
     }
 }
