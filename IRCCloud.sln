@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRCCloud", "IRCCloud\IRCCloud.csproj", "{F7E6BE24-2CD0-4FF4-B6B1-0F54C330DBB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.WP71", "WebSocket4Net\WebSocket4Net.WP71\WebSocket4Net.WP71.csproj", "{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F7E6BE24-2CD0-4FF4-B6B1-0F54C330DBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7E6BE24-2CD0-4FF4-B6B1-0F54C330DBB4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7E6BE24-2CD0-4FF4-B6B1-0F54C330DBB4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
