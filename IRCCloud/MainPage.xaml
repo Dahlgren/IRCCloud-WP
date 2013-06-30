@@ -24,7 +24,15 @@
             </controls:Pivot.HeaderTemplate>
             <controls:Pivot.ItemTemplate>
                 <DataTemplate>
-                    <Grid/>
+                    <ListBox ItemsSource="{Binding Path=Channels}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding Path=Value.Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </DataTemplate>
             </controls:Pivot.ItemTemplate>
         </controls:Pivot>
