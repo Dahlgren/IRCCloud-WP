@@ -33,5 +33,18 @@ namespace IRCCloud
                 Pivot.ItemsSource = ((App)App.Current).Connection.Servers.Values.ToArray();
             });
         }
+
+        private void listBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var listBox = sender as ListBox;
+
+            if (listBox.SelectedItem != null)
+            {
+                Channel channel = ((KeyValuePair<String, Channel>) ((ListBox)sender).SelectedItem).Value;
+                String query = "Channel=" + Uri.EscapeDataString(channel.Name) + "&Server=" + channel.Server.Id;
+                NavigationService.Navigate(new Uri("/ChannelPage.xaml?" + query, UriKind.Relative));
+                listBox.SelectedItem = null;
+            }
+        }
     }
 }
