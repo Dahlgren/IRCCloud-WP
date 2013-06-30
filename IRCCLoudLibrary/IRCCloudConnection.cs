@@ -17,8 +17,17 @@ namespace IRCCLoudLibrary
 {
     public class IRCCloudConnection
     {
+        public Dictionary<int, Server> Servers { get; private set; }
+
+        private Queue<JObject> _msgQueue = new Queue<JObject>();
+        private Boolean _oobLoaded = false;
         private String _session;
         private WebSocket _websocket;
+
+        public IRCCloudConnection()
+        {
+            Servers = new Dictionary<int, Server>();
+        }
 
         public void Connect(String session)
         {
@@ -56,6 +65,16 @@ namespace IRCCLoudLibrary
                     case "oob_include":
                         FetchOOB(o["url"].ToString());
                         break;
+                    default:
+                        if (_oobLoaded)
+                        {
+                            ProcessMessage(o);
+                        }
+                        else
+                        {
+                            _msgQueue.Enqueue(o);
+                        }
+                        break;
                 }
             }
             catch (Exception exc)
@@ -81,7 +100,72 @@ namespace IRCCLoudLibrary
             }
             else
             {
-                Debug.WriteLine(e.Result);
+                JArray oobArr = JArray.Parse(e.Result);
+                foreach (JObject o in oobArr.Values<JObject>())
+                {
+                    ProcessMessage(o);
+                }
+
+                ProcessMessageQueue();
+                _oobLoaded = true;
+            }
+        }
+
+        private void ProcessMessage(JObject o)
+        {
+            try
+            {
+                switch (o["type"].ToString())
+                {
+                    case "makeserver":
+                        Servers[(int)o["cid"]] = new Server()
+                        {
+                            Id = (int)o["cid"],
+                            Name = (string)o["name"],
+                            Nick = (string)o["name"]
+                        };
+                        break;
+                    case "makebuffer":
+                        Servers[(int)o["cid"]].Buffers[(int)o["bid"]] = new Buffer()
+                        {
+                            Id = (int)o["bid"],
+                            Server = Servers[(int)o["cid"]],
+                            Name = (string)o["name"]
+                        };
+                        break;
+                    case "channel_init":
+                        Servers[(int)o["cid"]].Channels[(string)o["chan"]] = new Channel()
+                        {
+                            Buffer = Servers[(int)o["cid"]].Buffers[(int)o["bid"]],
+                            Server = Servers[(int)o["cid"]],
+                            Name = (string)o["chan"],
+                            Topic = (string)o["topic"]["text"]
+                        };
+                        break;
+                    case "buffer_msg":
+                        Servers[(int)o["cid"]].Buffers[(int)o["bid"]].Messages.Add(new Message()
+                        {
+                            Buffer = Servers[(int)o["cid"]].Buffers[(int)o["bid"]],
+                            Server = Servers[(int)o["cid"]],
+                            Msg = (string)o["msg"],
+                            Timestamp = (long)o["eid"],
+                            User = (string)o["from"]
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception exc)
+            {
+            }
+        }
+
+        private void ProcessMessageQueue()
+        {
+            while (_msgQueue.Count > 0)
+            {
+                ProcessMessage(_msgQueue.Dequeue());
             }
         }
     }
