@@ -15,7 +15,7 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="#527dff">
         <controls:Pivot x:Name="Pivot" Title="IRCCloud" ItemsSource="{Binding Servers}">
             <controls:Pivot.HeaderTemplate>
                 <DataTemplate>
