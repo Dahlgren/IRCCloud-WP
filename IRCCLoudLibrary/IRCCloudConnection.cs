@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
@@ -16,12 +17,15 @@ namespace IRCCLoudLibrary
 {
     public class IRCCloudConnection
     {
+        private String _session;
         private WebSocket _websocket;
 
         public void Connect(String session)
         {
+            this._session = session;
+
             List<KeyValuePair<string, string>> cookies = new List<KeyValuePair<string, string>>();
-            cookies.Add(new KeyValuePair<string, string>("session", session));
+            cookies.Add(new KeyValuePair<string, string>("session", _session));
 
             _websocket = new WebSocket("wss://www.irccloud.com", string.Empty, cookies, null, string.Empty, "https://www.irccloud.com", WebSocketVersion.Rfc6455);
             _websocket.Opened += new EventHandler(websocket_Opened);
@@ -43,6 +47,42 @@ namespace IRCCLoudLibrary
         private void websocket_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             Debug.WriteLine(e.Message);
+
+            try
+            {
+                JObject o = JObject.Parse(e.Message);
+                switch (o["type"].ToString())
+                {
+                    case "oob_include":
+                        FetchOOB(o["url"].ToString());
+                        break;
+                }
+            }
+            catch (Exception exc)
+            {
+                // ignore empty and invalid messages
+            }
+        }
+
+        private void FetchOOB(String url)
+        {
+            WebClient webClient = new WebClient();
+            webClient.Headers["Cookie"] = "session=" + _session;
+            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(oob_DownloadComplete);
+            webClient.DownloadStringAsync(new Uri("https://www.irccloud.com" + url, UriKind.Absolute));
+        }
+
+        void oob_DownloadComplete(object sender, DownloadStringCompletedEventArgs e)
+        {
+            Debug.WriteLine("OOB fetched");
+            if (e.Error != null)
+            {
+                Debug.WriteLine(e.Error);
+            }
+            else
+            {
+                Debug.WriteLine(e.Result);
+            }
         }
     }
 }
