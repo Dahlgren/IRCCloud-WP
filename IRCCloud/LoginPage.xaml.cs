@@ -17,10 +17,10 @@ using Newtonsoft.Json.Linq;
 
 namespace IRCCloud
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class LoginPage : PhoneApplicationPage
     {
         // Constructor
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
 
@@ -75,6 +75,7 @@ namespace IRCCloud
                 {
                     String session = (string)o["session"];
                     ((App) App.Current).Connection.Connect(session);
+                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 }
             }
         }

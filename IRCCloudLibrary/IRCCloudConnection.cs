@@ -18,6 +18,7 @@ namespace IRCCloudLibrary
     public class IRCCloudConnection
     {
         public Dictionary<int, Server> Servers { get; private set; }
+        public event EventHandler OnServersUpdate;
 
         private Queue<JObject> _msgQueue = new Queue<JObject>();
         private Boolean _oobLoaded = false;
@@ -121,6 +122,7 @@ namespace IRCCloudLibrary
                             Name = (string)o["name"],
                             Nick = (string)o["name"]
                         };
+                        OnServersUpdate(this, EventArgs.Empty);
                         break;
                     case "makebuffer":
                         Servers[(int)o["cid"]].Buffers[(int)o["bid"]] = new Buffer()
