@@ -90,7 +90,7 @@ namespace IRCCloud
 
             Debug.WriteLine(session);
 
-            _websocket = new WebSocket("wss://www.irccloud.com", string.Empty, cookies, null, string.Empty, string.Empty, WebSocketVersion.None);
+            _websocket = new WebSocket("wss://www.irccloud.com", string.Empty, cookies, null, string.Empty, "https://www.irccloud.com", WebSocketVersion.Rfc6455);
             _websocket.AutoSendPingInterval = 15;
             _websocket.Opened += new EventHandler(websocket_Opened);
             _websocket.Error += new EventHandler<ErrorEventArgs>(websocket_Error);
