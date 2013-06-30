@@ -4,7 +4,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRCCloud", "IRCCloud\IRCCloud.csproj", "{F7E6BE24-2CD0-4FF4-B6B1-0F54C330DBB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket4Net.WP71", "WebSocket4Net\WebSocket4Net.WP71\WebSocket4Net.WP71.csproj", "{57B077EB-85DE-44B2-AD0A-DA7DB3BF4F84}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRCCLoudLibrary", "IRCCLoudLibrary\IRCCLoudLibrary.csproj", "{E72B40B8-E904-49DD-9626-19E4D37028B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRCCloudLibrary", "IRCCloudLibrary\IRCCloudLibrary.csproj", "{E72B40B8-E904-49DD-9626-19E4D37028B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

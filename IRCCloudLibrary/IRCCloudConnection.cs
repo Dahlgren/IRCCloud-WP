@@ -13,7 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using WebSocket4Net;
 
-namespace IRCCLoudLibrary
+namespace IRCCloudLibrary
 {
     public class IRCCloudConnection
     {
@@ -55,8 +55,6 @@ namespace IRCCLoudLibrary
 
         private void websocket_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            Debug.WriteLine(e.Message);
-
             try
             {
                 JObject o = JObject.Parse(e.Message);
@@ -93,7 +91,6 @@ namespace IRCCLoudLibrary
 
         void oob_DownloadComplete(object sender, DownloadStringCompletedEventArgs e)
         {
-            Debug.WriteLine("OOB fetched");
             if (e.Error != null)
             {
                 Debug.WriteLine(e.Error);

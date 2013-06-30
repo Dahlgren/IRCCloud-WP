@@ -97,9 +97,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IRCCLoudLibrary\IRCCLoudLibrary.csproj">
+    <ProjectReference Include="..\IRCCloudLibrary\IRCCloudLibrary.csproj">
       <Project>{E72B40B8-E904-49DD-9626-19E4D37028B4}</Project>
-      <Name>IRCCLoudLibrary</Name>
+      <Name>IRCCloudLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
