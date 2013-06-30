@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using IRCCLoudLibrary;
 
 namespace IRCCloud
 {
@@ -22,6 +23,8 @@ namespace IRCCloud
         /// </summary>
         /// <returns>The root frame of the Phone Application.</returns>
         public PhoneApplicationFrame RootFrame { get; private set; }
+
+        public IRCCloudConnection Connection { get; private set; }
 
         /// <summary>
         /// Constructor for the Application object.
@@ -63,6 +66,7 @@ namespace IRCCloud
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            Connection = new IRCCloudConnection();
         }
 
         // Code to execute when the application is activated (brought to foreground)

@@ -12,8 +12,6 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.IO.IsolatedStorage;
 using System.Diagnostics;
-using WebSocket4Net;
-using SuperSocket.ClientEngine;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
@@ -21,8 +19,6 @@ namespace IRCCloud
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private WebSocket _websocket;
-
         // Constructor
         public MainPage()
         {
@@ -78,45 +74,11 @@ namespace IRCCloud
                 if ((bool)o["success"])
                 {
                     String session = (string)o["session"];
-                    OpenWebSocket(session);
+                    ((App) App.Current).Connection.Connect(session);
                 }
             }
         }
 
-        private void OpenWebSocket(String session)
-        {
-            List<KeyValuePair<string, string>> cookies = new List<KeyValuePair<string, string>>();
-            cookies.Add(new KeyValuePair<string, string>("session", session));
-
-            Debug.WriteLine(session);
-
-            _websocket = new WebSocket("wss://www.irccloud.com", string.Empty, cookies, null, string.Empty, "https://www.irccloud.com", WebSocketVersion.Rfc6455);
-            _websocket.AutoSendPingInterval = 15;
-            _websocket.Opened += new EventHandler(websocket_Opened);
-            _websocket.Error += new EventHandler<ErrorEventArgs>(websocket_Error);
-            _websocket.Closed += new EventHandler(websocket_Closed);
-            _websocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(websocket_MessageReceived);
-            _websocket.Open();
-        }
-
-        private void websocket_Opened(object sender, EventArgs e)
-        {
-            Debug.WriteLine("Socket opened");
-        }
-
-        private void websocket_Error(object sender, ErrorEventArgs e)
-        {
-            Debug.WriteLine(e.Exception);
-        }
-
-        private void websocket_Closed(object sender, EventArgs e)
-        {
-            Debug.WriteLine("Socket closed");
-        }
-
-        private void websocket_MessageReceived(object sender, MessageReceivedEventArgs e)
-        {
-            Debug.WriteLine(e.Message);
-        }
+        
     }
 }
