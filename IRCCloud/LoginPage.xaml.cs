@@ -32,6 +32,11 @@ namespace IRCCloud
             {
                 PasswordBox.Password = (String) IsolatedStorageSettings.ApplicationSettings["Password"];
             }
+
+            if (UserNameBox.Text.Length > 0 && PasswordBox.Password.Length > 0)
+            {
+                Login(UserNameBox.Text, PasswordBox.Password);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
