@@ -67,7 +67,10 @@ namespace IRCCloudLibrary
                     default:
                         if (_oobLoaded)
                         {
-                            ProcessMessage(o);
+                            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                            {
+                                ProcessMessage(o);
+                            });
                         }
                         else
                         {
@@ -98,14 +101,17 @@ namespace IRCCloudLibrary
             }
             else
             {
-                JArray oobArr = JArray.Parse(e.Result);
-                foreach (JObject o in oobArr.Values<JObject>())
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    ProcessMessage(o);
-                }
+                    JArray oobArr = JArray.Parse(e.Result);
+                    foreach (JObject o in oobArr.Values<JObject>())
+                    {
+                        ProcessMessage(o);
+                    }
 
-                ProcessMessageQueue();
-                _oobLoaded = true;
+                    ProcessMessageQueue();
+                    _oobLoaded = true;
+                });
             }
         }
 

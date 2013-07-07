@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
@@ -25,11 +26,11 @@ namespace IRCCloudLibrary
         public int Id { get; set; }
         public Server Server { get; set; }
         public String Name { get; set; }
-        public List<Message> Messages { get; private set; }
+        public ObservableCollection<Message> Messages { get; private set; }
 
         public Buffer()
         {
-            Messages = new List<Message>();
+            Messages = new ObservableCollection<Message>();
         }
     }
 

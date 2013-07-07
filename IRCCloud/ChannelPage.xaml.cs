@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using IRCCloudLibrary;
+using System.Collections.Specialized;
 
 namespace IRCCloud
 {
@@ -36,8 +37,21 @@ namespace IRCCloud
                     Channel = server.Channels[channelName];
                     ChannelTitle.Text = Channel.Name;
                     ListBox.ItemsSource = Channel.Buffer.Messages;
+                    ListBox.ScrollToBottom();
+                    Channel.Buffer.Messages.CollectionChanged += this.Messages_CollectionChanged;
                 }
                 
+            }
+        }
+
+        void Messages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    ListBox.ScrollToBottom();
+                });
             }
         }
 
