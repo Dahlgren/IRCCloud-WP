@@ -29,7 +29,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <irccloud:ChannelListBox x:Name="ListBox">
+            <irccloud:ChannelListBox x:Name="ListBox" Margin="0,0,0,77">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="12,0,12,12">
@@ -49,6 +49,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </irccloud:ChannelListBox>
+            <TextBox x:Name="InputBox" Height="72" Margin="10,535,106,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="340"/>
+            <Button Content="Send" HorizontalAlignment="Left" Margin="345,535,0,0" VerticalAlignment="Top" Width="111" Height="72" Click="Button_Click"/>
         </Grid>
     </Grid>
 

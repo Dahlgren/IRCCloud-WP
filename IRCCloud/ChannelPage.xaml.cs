@@ -55,5 +55,11 @@ namespace IRCCloud
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ((App)App.Current).Connection.SendMessage(InputBox.Text, Channel.Buffer);
+            InputBox.Text = "";
+        }
+
     }
 }

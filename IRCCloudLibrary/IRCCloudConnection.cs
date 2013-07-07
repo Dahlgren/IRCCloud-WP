@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,6 +23,7 @@ namespace IRCCloudLibrary
 
         private Queue<JObject> _msgQueue = new Queue<JObject>();
         private Boolean _oobLoaded = false;
+        private int _requestId = 0;
         private String _session;
         private WebSocket _websocket;
 
@@ -42,6 +44,21 @@ namespace IRCCloudLibrary
             _websocket.Closed += new EventHandler(websocket_Closed);
             _websocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(websocket_MessageReceived);
             _websocket.Open();
+        }
+
+        public void SendMessage(String text, Buffer buffer)
+        {
+            Dictionary<string, object> message = new Dictionary<string, object>{
+                { "_reqid", ++_requestId },
+                { "_method", "say" },
+                { "cid", buffer.Server.Id },
+                { "to", buffer.Name },
+                { "msg", text }
+            };
+
+            String json = JsonConvert.SerializeObject(message);
+
+            _websocket.Send(json);
         }
 
         private void websocket_Opened(object sender, EventArgs e)
