@@ -52,6 +52,8 @@ namespace IRCCloud
 
         private void Login(String username, String password)
         {
+            LoginButton.IsEnabled = false;
+
             WebClient webClient = new WebClient();
 
             StringBuilder postData = new StringBuilder();
@@ -66,9 +68,9 @@ namespace IRCCloud
 
         void webClient_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
         {
-            Debug.WriteLine("completed");
             if (e.Error != null)
             {
+                LoginButton.IsEnabled = true;
                 Debug.WriteLine(e.Error);
             }
             else
