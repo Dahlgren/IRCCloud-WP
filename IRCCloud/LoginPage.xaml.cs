@@ -68,9 +68,10 @@ namespace IRCCloud
 
         void webClient_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
         {
+            LoginButton.IsEnabled = true;
+
             if (e.Error != null)
             {
-                LoginButton.IsEnabled = true;
                 Debug.WriteLine(e.Error);
             }
             else
@@ -81,7 +82,7 @@ namespace IRCCloud
                 if ((bool)o["success"])
                 {
                     String session = (string)o["session"];
-                    ((App) App.Current).Connection.Connect(session);
+                    ((App)App.Current).Connection.Connect(session);
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 }
             }
