@@ -49,8 +49,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </irccloud:ChannelListBox>
-            <TextBox x:Name="InputBox" Height="72" Margin="10,535,106,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="340"/>
-            <Button Content="Send" HorizontalAlignment="Left" Margin="345,535,0,0" VerticalAlignment="Top" Width="111" Height="72" Click="Button_Click"/>
+            <TextBox x:Name="InputBox" Margin="10,0" TextWrapping="Wrap" Height="72" VerticalAlignment="Bottom" KeyDown="InputBox_KeyDown"/>
         </Grid>
     </Grid>
 

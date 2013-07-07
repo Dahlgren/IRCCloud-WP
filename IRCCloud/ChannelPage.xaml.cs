@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using IRCCloudLibrary;
 using System.Collections.Specialized;
+using System.Windows.Input;
 
 namespace IRCCloud
 {
@@ -55,10 +56,13 @@ namespace IRCCloud
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void InputBox_KeyDown(object sender, KeyEventArgs e)
         {
-            ((App)App.Current).Connection.SendMessage(InputBox.Text, Channel.Buffer);
-            InputBox.Text = "";
+            if (e.Key == Key.Enter)
+            {
+                ((App)App.Current).Connection.SendMessage(InputBox.Text, Channel.Buffer);
+                InputBox.Text = "";
+            }
         }
 
     }
