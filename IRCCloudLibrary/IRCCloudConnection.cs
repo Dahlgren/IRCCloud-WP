@@ -148,13 +148,13 @@ namespace IRCCloudLibrary
                         OnServersUpdate(this, EventArgs.Empty);
                         break;
                     case "makebuffer":
-                        Servers[(int)o["cid"]].Buffers[(int)o["bid"]] = new Buffer()
+                        Servers[(int)o["cid"]].AddBuffer(new Buffer()
                         {
                             Id = (int)o["bid"],
                             Server = Servers[(int)o["cid"]],
                             Name = (string)o["name"],
                             Type = (string)o["buffer_type"]
-                        };
+                        });
                         break;
                     case "channel_init":
                         Servers[(int)o["cid"]].Channels[(string)o["chan"]] = new Channel()

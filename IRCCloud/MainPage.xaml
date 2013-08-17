@@ -24,11 +24,11 @@
             </controls:Pivot.HeaderTemplate>
             <controls:Pivot.ItemTemplate>
                 <DataTemplate>
-                    <ListBox ItemsSource="{Binding Path=Buffers}" SelectionChanged="listBox_OnSelectionChanged">
+                    <ListBox ItemsSource="{Binding Path=SortedBuffers}" SelectionChanged="listBox_OnSelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <TextBlock Text="{Binding Path=Value.Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

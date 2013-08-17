@@ -55,6 +55,7 @@
     <Compile Include="IRCCloudConnection.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SortedObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebSocket4Net\WebSocket4Net.WP71\WebSocket4Net.WP71.csproj">

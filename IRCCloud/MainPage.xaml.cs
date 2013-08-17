@@ -40,7 +40,7 @@ namespace IRCCloud
 
             if (listBox.SelectedItem != null)
             {
-                IRCCloudLibrary.Buffer buffer = ((KeyValuePair<int, IRCCloudLibrary.Buffer>) ((ListBox)sender).SelectedItem).Value;
+                IRCCloudLibrary.Buffer buffer = (IRCCloudLibrary.Buffer) ((ListBox)sender).SelectedItem;
                 String query = "Buffer=" + buffer.Id + "&Server=" + buffer.Server.Id;
                 NavigationService.Navigate(new Uri("/BufferPage.xaml?" + query, UriKind.Relative));
                 listBox.SelectedItem = null;
