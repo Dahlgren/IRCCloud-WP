@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using IRCCloudLibrary;
+using System.IO.IsolatedStorage;
 
 namespace IRCCloud
 {
@@ -67,6 +68,16 @@ namespace IRCCloud
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             Connection = new IRCCloudConnection();
+
+            // Check if user wants app to run under lock screen
+            if (IsolatedStorageSettings.ApplicationSettings.Contains("RunUnderLockScreen") && (bool)IsolatedStorageSettings.ApplicationSettings["RunUnderLockScreen"])
+            {
+                PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
+            }
+            else
+            {
+                PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Enabled;
+            }
         }
 
         // Code to execute when the application is activated (brought to foreground)
