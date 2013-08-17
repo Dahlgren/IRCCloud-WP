@@ -40,9 +40,9 @@ namespace IRCCloud
 
             if (listBox.SelectedItem != null)
             {
-                Channel channel = ((KeyValuePair<String, Channel>) ((ListBox)sender).SelectedItem).Value;
-                String query = "Channel=" + Uri.EscapeDataString(channel.Name) + "&Server=" + channel.Server.Id;
-                NavigationService.Navigate(new Uri("/ChannelPage.xaml?" + query, UriKind.Relative));
+                IRCCloudLibrary.Buffer buffer = ((KeyValuePair<int, IRCCloudLibrary.Buffer>) ((ListBox)sender).SelectedItem).Value;
+                String query = "Buffer=" + buffer.Id + "&Server=" + buffer.Server.Id;
+                NavigationService.Navigate(new Uri("/BufferPage.xaml?" + query, UriKind.Relative));
                 listBox.SelectedItem = null;
             }
         }

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace IRCCloud
 {
-    public class ChannelListBox : ListBox
+    public class BufferListBox : ListBox
     {
         public void ScrollToBottom()
         {

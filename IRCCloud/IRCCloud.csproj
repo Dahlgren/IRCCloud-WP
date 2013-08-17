@@ -65,9 +65,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChannelListBox.cs" />
-    <Compile Include="ChannelPage.xaml.cs">
-      <DependentUpon>ChannelPage.xaml</DependentUpon>
+    <Compile Include="BufferListBox.cs" />
+    <Compile Include="BufferPage.xaml.cs">
+      <DependentUpon>BufferPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -82,7 +82,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="ChannelPage.xaml">
+    <Page Include="BufferPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

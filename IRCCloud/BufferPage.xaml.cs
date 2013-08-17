@@ -13,11 +13,11 @@ using System.Windows.Input;
 
 namespace IRCCloud
 {
-    public partial class ChannelPage : PhoneApplicationPage
+    public partial class BufferPage : PhoneApplicationPage
     {
-        public Channel Channel { get; private set; }
+        public IRCCloudLibrary.Buffer Buffer { get; private set; }
 
-        public ChannelPage()
+        public BufferPage()
         {
             InitializeComponent();
         }
@@ -27,19 +27,19 @@ namespace IRCCloud
             base.OnNavigatedTo(e);
 
             String serverId;
-            String channelName;
+            String bufferId;
 
             if (NavigationContext.QueryString.TryGetValue("Server", out serverId))
             {
                 Server server = ((App)App.Current).Connection.Servers[int.Parse(serverId)];
 
-                if (NavigationContext.QueryString.TryGetValue("Channel", out channelName))
+                if (NavigationContext.QueryString.TryGetValue("Buffer", out bufferId))
                 {
-                    Channel = server.Channels[channelName];
-                    ChannelTitle.Text = Channel.Name;
-                    ListBox.ItemsSource = Channel.Buffer.Messages;
+                    Buffer = server.Buffers[int.Parse(bufferId)];
+                    BufferTitle.Text = Buffer.Name;
+                    ListBox.ItemsSource = Buffer.Messages;
                     ListBox.ScrollToBottom();
-                    Channel.Buffer.Messages.CollectionChanged += this.Messages_CollectionChanged;
+                    Buffer.Messages.CollectionChanged += this.Messages_CollectionChanged;
                 }
                 
             }
@@ -60,7 +60,7 @@ namespace IRCCloud
         {
             if (e.Key == Key.Enter)
             {
-                ((App)App.Current).Connection.SendMessage(InputBox.Text, Channel.Buffer);
+                ((App)App.Current).Connection.SendMessage(InputBox.Text, Buffer);
                 InputBox.Text = "";
             }
         }
