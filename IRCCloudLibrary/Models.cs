@@ -26,6 +26,7 @@ namespace IRCCloudLibrary
         public int Id { get; set; }
         public Server Server { get; set; }
         public String Name { get; set; }
+        public String Type { get; set; }
         public ObservableCollection<Message> Messages { get; private set; }
 
         public Buffer()
