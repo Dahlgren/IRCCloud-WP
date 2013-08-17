@@ -36,6 +36,7 @@ namespace IRCCloudLibrary
         public String Name { get; set; }
         public String Type { get; set; }
         public ObservableCollection<Message> Messages { get; private set; }
+        public Boolean Archived { get; set; }
 
         public Buffer()
         {
@@ -48,7 +49,21 @@ namespace IRCCloudLibrary
                 throw new NotImplementedException();
             }
 
-            return Name.CompareTo((obj as Buffer).Name);
+            Buffer otherBuffer = obj as Buffer;
+
+            if (Archived != otherBuffer.Archived)
+            {
+                if (Archived)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            return Name.CompareTo(otherBuffer.Name);
         }
     }
 

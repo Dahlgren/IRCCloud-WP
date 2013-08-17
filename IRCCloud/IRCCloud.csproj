@@ -69,6 +69,7 @@
     <Compile Include="BufferPage.xaml.cs">
       <DependentUpon>BufferPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataTemplateSelector.cs" />
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>

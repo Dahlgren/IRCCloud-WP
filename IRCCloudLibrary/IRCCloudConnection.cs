@@ -153,7 +153,8 @@ namespace IRCCloudLibrary
                             Id = (int)o["bid"],
                             Server = Servers[(int)o["cid"]],
                             Name = (string)o["name"],
-                            Type = (string)o["buffer_type"]
+                            Type = (string)o["buffer_type"],
+                            Archived = (bool)o["archived"]
                         });
                         break;
                     case "channel_init":

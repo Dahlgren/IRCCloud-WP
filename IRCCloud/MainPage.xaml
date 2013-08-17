@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:IRCCloudLibrary="clr-namespace:IRCCloudLibrary;assembly=IRCCloudLibrary" 
+    xmlns:irccloud="clr-namespace:IRCCloud;assembly=IRCCloud"
     x:Class="IRCCloud.MainPage" 
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -27,9 +28,18 @@
                     <ListBox ItemsSource="{Binding Path=SortedBuffers}" SelectionChanged="listBox_OnSelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" />
-                                </Grid>
+                                <irccloud:BufferTemplateSelector Content="{Binding}">
+                                    <irccloud:BufferTemplateSelector.Active>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="White" />
+                                        </DataTemplate>
+                                    </irccloud:BufferTemplateSelector.Active>
+                                    <irccloud:BufferTemplateSelector.Archived>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="LightGray" />
+                                        </DataTemplate>
+                                    </irccloud:BufferTemplateSelector.Archived>
+                                </irccloud:BufferTemplateSelector>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
