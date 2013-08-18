@@ -10,6 +10,8 @@ using Microsoft.Phone.Shell;
 using IRCCloudLibrary;
 using System.Collections.Specialized;
 using System.Windows.Input;
+using System.Text.RegularExpressions;
+using Microsoft.Phone.Tasks;
 
 namespace IRCCloud
 {
@@ -65,5 +67,58 @@ namespace IRCCloud
             }
         }
 
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ListBox.SelectedItem != null)
+            {
+                Message msg = (Message)((ListBox)sender).SelectedItem;
+                var listBoxItem = ListBox.ItemContainerGenerator.ContainerFromIndex(ListBox.SelectedIndex);
+                List<string> urls = GetLinks(msg.Msg);
+                if (urls.Count > 0)
+                {
+                    var contextMenu = ContextMenuService.GetContextMenu(listBoxItem);
+
+                    if (contextMenu == null)
+                    {
+                        contextMenu = new ContextMenu();
+                    }
+                    else
+                    {
+                        contextMenu.Items.Clear();
+                    }
+
+                    foreach (string url in urls)
+                    {
+                        var menuItem = new MenuItem() {
+                            Header = url
+                        };
+                        menuItem.Click += (o, args) =>
+                        {
+                            WebBrowserTask wbt = new WebBrowserTask();
+                            wbt.URL = url;
+                            wbt.Show();
+                        };
+                        contextMenu.Items.Add(menuItem);
+                    }
+
+                    ContextMenuService.SetContextMenu(listBoxItem, contextMenu);
+                    contextMenu.IsOpen = true;
+                }
+                ListBox.SelectedItem = null;
+            }
+        }
+
+        private List<string> GetLinks(string message)
+        {
+            List<string> list = new List<string>();
+            Regex urlRx = new Regex(@"((https?|ftp|file)\://|www.)[A-Za-z0-9\.\-]+(/[A-Za-z0-9\?\&\=;\+!'\(\)\*\-\._~%]*)*", RegexOptions.IgnoreCase);
+
+            MatchCollection matches = urlRx.Matches(message);
+            foreach (Match match in matches)
+            {
+                list.Add(match.Value);
+            }
+            return list;
+        }
     }
 }
