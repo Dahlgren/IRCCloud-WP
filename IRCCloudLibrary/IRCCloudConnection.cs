@@ -121,9 +121,10 @@ namespace IRCCloudLibrary
             }
             else
             {
+                JArray oobArr = JArray.Parse(e.Result);
+
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    JArray oobArr = JArray.Parse(e.Result);
                     foreach (JObject o in oobArr.Values<JObject>())
                     {
                         ProcessMessage(o);
