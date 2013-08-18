@@ -49,7 +49,7 @@ namespace IRCCloud
 
         void Messages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
+            if (e.Action == NotifyCollectionChangedAction.Add && ListBox.ScrollAtBottom)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
@@ -69,8 +69,6 @@ namespace IRCCloud
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListBox.ScrollingToBottom) return;
-
             if (ListBox.SelectedItem != null)
             {
                 Message msg = (Message)((ListBox)sender).SelectedItem;
