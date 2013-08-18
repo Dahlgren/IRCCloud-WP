@@ -47,6 +47,13 @@ namespace IRCCloud
             }
         }
 
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            Buffer.Messages.CollectionChanged -= this.Messages_CollectionChanged;
+        }
+
         void Messages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add && ListBox.ScrollAtBottom)
