@@ -8,13 +8,17 @@ namespace IRCCloud
 {
     public class BufferListBox : ListBox
     {
+        public bool ScrollingToBottom { get; private set; }
+
         public void ScrollToBottom()
         {
-            if (Items.Count > 0)
+            if (Items.Count > 0 && SelectedIndex < 0)
             {
+                ScrollingToBottom = true;
                 UpdateLayout();
-                ScrollIntoView(Items.Last());
-                UpdateLayout();
+                SelectedIndex = Items.Count-1;
+                SelectedIndex = -1;
+                ScrollingToBottom = false;
             }
         }
     }

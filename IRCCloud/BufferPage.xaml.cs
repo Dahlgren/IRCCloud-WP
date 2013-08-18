@@ -69,6 +69,8 @@ namespace IRCCloud
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (ListBox.ScrollingToBottom) return;
+
             if (ListBox.SelectedItem != null)
             {
                 Message msg = (Message)((ListBox)sender).SelectedItem;
