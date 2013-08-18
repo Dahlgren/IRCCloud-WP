@@ -45,14 +45,14 @@ namespace IRCCloudLibrary
         public Server Server { get; set; }
         public String Name { get; set; }
         public String Type { get; set; }
-        public ObservableCollection<Message> Messages { get; private set; }
+        public SortedObservableCollection<Message> Messages { get; private set; }
         public Boolean Archived { get; set; }
 
         private Dictionary<long, Message> SeenMessages;
 
         public Buffer()
         {
-            Messages = new ObservableCollection<Message>();
+            Messages = new SortedObservableCollection<Message>();
             SeenMessages = new Dictionary<long, Message>();
         }
 
@@ -97,12 +97,24 @@ namespace IRCCloudLibrary
         public String Topic { get; set; }
     }
 
-    public class Message
+    public class Message : IComparable
     {
         public Buffer Buffer { get; set; }
         public Server Server { get; set; }
         public String Msg { get; set; }
         public String User { get; set; }
         public long Timestamp { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            if (!(obj is Message))
+            {
+                throw new NotImplementedException();
+            }
+
+            Message otherMsg = obj as Message;
+
+            return Timestamp.CompareTo(otherMsg.Timestamp);
+        }
     }
 }
