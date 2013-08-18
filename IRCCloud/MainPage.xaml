@@ -16,7 +16,7 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <Grid x:Name="LayoutRoot" Background="#527dff">
+    <Grid x:Name="LayoutRoot" Background="Transparent">
         <controls:Pivot x:Name="Pivot" Title="IRCCloud" ItemsSource="{Binding Servers}">
             <controls:Pivot.HeaderTemplate>
                 <DataTemplate>
@@ -31,12 +31,12 @@
                                 <irccloud:BufferTemplateSelector Content="{Binding}">
                                     <irccloud:BufferTemplateSelector.Active>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="White" />
+                                            <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" />
                                         </DataTemplate>
                                     </irccloud:BufferTemplateSelector.Active>
                                     <irccloud:BufferTemplateSelector.Archived>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="LightGray" />
+                                            <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="DarkGray" />
                                         </DataTemplate>
                                     </irccloud:BufferTemplateSelector.Archived>
                                 </irccloud:BufferTemplateSelector>
