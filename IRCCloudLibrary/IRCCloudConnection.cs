@@ -58,7 +58,10 @@ namespace IRCCloudLibrary
 
             String json = JsonConvert.SerializeObject(message);
 
-            _websocket.Send(json);
+            if (_websocket.State == WebSocketState.Open)
+            {
+                _websocket.Send(json);
+            }
         }
 
         private void websocket_Opened(object sender, EventArgs e)
