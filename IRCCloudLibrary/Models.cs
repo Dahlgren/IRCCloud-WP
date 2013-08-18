@@ -24,8 +24,18 @@ namespace IRCCloudLibrary
 
         internal void AddBuffer(Buffer buffer)
         {
-            Buffers[buffer.Id] = buffer;
-            SortedBuffers.Add(buffer);
+            if (!Buffers.ContainsKey(buffer.Id) || Buffers[buffer.Id] == null)
+            {
+                Buffers[buffer.Id] = buffer;
+                SortedBuffers.Add(buffer);
+            }
+            else
+            {
+                Buffer existingBuffer = Buffers[buffer.Id];
+
+                existingBuffer.Name = buffer.Name;
+                existingBuffer.Archived = buffer.Archived;
+            }
         }
     }
 
@@ -38,9 +48,12 @@ namespace IRCCloudLibrary
         public ObservableCollection<Message> Messages { get; private set; }
         public Boolean Archived { get; set; }
 
+        private Dictionary<long, Message> SeenMessages;
+
         public Buffer()
         {
             Messages = new ObservableCollection<Message>();
+            SeenMessages = new Dictionary<long, Message>();
         }
 
         public int CompareTo(object obj)
@@ -64,6 +77,15 @@ namespace IRCCloudLibrary
             }
 
             return Name.CompareTo(otherBuffer.Name);
+        }
+
+        internal void AddMessage(Message message)
+        {
+            if (!SeenMessages.ContainsKey(message.Timestamp))
+            {
+                Messages.Add(message);
+                SeenMessages.Add(message.Timestamp, message);
+            }
         }
     }
 

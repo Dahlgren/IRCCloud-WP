@@ -24,22 +24,38 @@ namespace IRCCloudLibrary
         private Queue<JObject> _msgQueue = new Queue<JObject>();
         private Boolean _oobLoaded = false;
         private int _requestId = 0;
+        private long _lastEventId = 0;
         private String _session;
         private WebSocket _websocket;
 
         public IRCCloudConnection()
         {
-            Servers = new Dictionary<int, Server>();
+            
         }
 
         public void Connect(String session)
         {
             this._session = session;
+            Servers = new Dictionary<int, Server>();
+
+            Connect(0);
+        }
+
+        private void Connect(long lastEventId)
+        {
+            _oobLoaded = false;
 
             List<KeyValuePair<string, string>> cookies = new List<KeyValuePair<string, string>>();
             cookies.Add(new KeyValuePair<string, string>("session", _session));
 
-            _websocket = new WebSocket("wss://www.irccloud.com", string.Empty, cookies, null, string.Empty, "https://www.irccloud.com", WebSocketVersion.Rfc6455);
+            var url = "wss://www.irccloud.com";
+
+            if (lastEventId > 0)
+            {
+                url += "?since_id=" + lastEventId;
+            }
+
+            _websocket = new WebSocket(url, string.Empty, cookies, null, string.Empty, "https://www.irccloud.com", WebSocketVersion.Rfc6455);
             _websocket.Opened += new EventHandler(websocket_Opened);
             _websocket.Closed += new EventHandler(websocket_Closed);
             _websocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(websocket_MessageReceived);
@@ -72,6 +88,11 @@ namespace IRCCloudLibrary
         private void websocket_Closed(object sender, EventArgs e)
         {
             Debug.WriteLine("Socket closed");
+
+            if (_session != null && _lastEventId > 0)
+            {
+                Connect(_lastEventId);
+            }
         }
 
         private void websocket_MessageReceived(object sender, MessageReceivedEventArgs e)
@@ -143,12 +164,25 @@ namespace IRCCloudLibrary
                 switch (o["type"].ToString())
                 {
                     case "makeserver":
-                        Servers[(int)o["cid"]] = new Server()
+                        Server server = new Server()
                         {
                             Id = (int)o["cid"],
                             Name = (string)o["name"],
                             Nick = (string)o["name"]
                         };
+
+                        if (Servers.ContainsKey(server.Id) && Servers[server.Id] != null)
+                        {
+                            var existingServer = Servers[server.Id];
+
+                            existingServer.Name = server.Name;
+                            existingServer.Nick = server.Nick;
+                        }
+                        else
+                        {
+                            Servers[server.Id] = server;
+                        }
+
                         OnServersUpdate(this, EventArgs.Empty);
                         break;
                     case "makebuffer":
@@ -171,7 +205,7 @@ namespace IRCCloudLibrary
                         };
                         break;
                     case "buffer_msg":
-                        Servers[(int)o["cid"]].Buffers[(int)o["bid"]].Messages.Add(new Message()
+                        Servers[(int)o["cid"]].Buffers[(int)o["bid"]].AddMessage(new Message()
                         {
                             Buffer = Servers[(int)o["cid"]].Buffers[(int)o["bid"]],
                             Server = Servers[(int)o["cid"]],
@@ -182,6 +216,15 @@ namespace IRCCloudLibrary
                         break;
                     default:
                         break;
+                }
+
+                if (o["eid"] != null) {
+                    long eventId = (long)o["eid"];
+
+                    if (eventId > _lastEventId)
+                    {
+                        _lastEventId = eventId;
+                    }
                 }
             }
             catch (Exception exc)
