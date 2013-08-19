@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using System.IO.IsolatedStorage;
 
 namespace IRCCloud
 {
@@ -17,18 +16,18 @@ namespace IRCCloud
         {
             InitializeComponent();
 
-            LockScreenToggle.IsChecked = IsolatedStorageSettings.ApplicationSettings.Contains("RunUnderLockScreen") && (bool)IsolatedStorageSettings.ApplicationSettings["RunUnderLockScreen"];
+            LockScreenToggle.IsChecked = Settings.GetRunUnderLockScreen();
         }
 
         private void LockScreenEnabledToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
-            IsolatedStorageSettings.ApplicationSettings["RunUnderLockScreen"] = true;
+            Settings.SetRunUnderLockScreen(true);
         }
 
         private void LockScreenEnabledToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
-            IsolatedStorageSettings.ApplicationSettings["RunUnderLockScreen"] = false;
+            Settings.SetRunUnderLockScreen(false);
         }
     }
 }

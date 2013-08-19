@@ -10,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
-using System.IO.IsolatedStorage;
 using System.Diagnostics;
 using System.Text;
 using Newtonsoft.Json.Linq;
@@ -24,13 +23,13 @@ namespace IRCCloud
         {
             InitializeComponent();
 
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("UserName")) {
-                UserNameBox.Text = (String) IsolatedStorageSettings.ApplicationSettings["UserName"];
+            if (Settings.GetUserName() != null) {
+                UserNameBox.Text = Settings.GetUserName();
             }
 
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("Password"))
+            if (Settings.GetPassword() != null)
             {
-                PasswordBox.Password = (String) IsolatedStorageSettings.ApplicationSettings["Password"];
+                PasswordBox.Password = Settings.GetPassword();
             }
 
             if (UserNameBox.Text.Length > 0 && PasswordBox.Password.Length > 0)
@@ -41,13 +40,13 @@ namespace IRCCloud
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var username = UserNameBox.Text;
+            var userName = UserNameBox.Text;
             var password = PasswordBox.Password;
 
-            IsolatedStorageSettings.ApplicationSettings["UserName"] = username;
-            IsolatedStorageSettings.ApplicationSettings["Password"] = password;
+            Settings.SetUserName(userName);
+            Settings.SetPassword(password);
 
-            Login(username, password);
+            Login(userName, password);
         }
 
         private void Login(String username, String password)
