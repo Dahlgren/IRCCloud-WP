@@ -17,6 +17,7 @@ namespace IRCCloud
             InitializeComponent();
 
             LockScreenToggle.IsChecked = Settings.GetRunUnderLockScreen();
+            PushNotificationsToggle.IsChecked = Settings.GetPushNotifications();
         }
 
         private void LockScreenEnabledToggleSwitch_Checked(object sender, RoutedEventArgs e)
@@ -28,6 +29,16 @@ namespace IRCCloud
         private void LockScreenEnabledToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
             Settings.SetRunUnderLockScreen(false);
+        }
+
+        private void PushNotificationsToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            ((App)App.Current).PushNotifications.Register();
+        }
+
+        private void PushNotificationsToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ((App)App.Current).PushNotifications.Unregister();
         }
     }
 }

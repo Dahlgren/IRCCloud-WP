@@ -9,6 +9,7 @@ namespace IRCCloud
     class Settings
     {
         private const string RunUnderLockScreenKey = "RunUnderLockScreen";
+        private const string PushNotificationsKey = "PushNotifications";
         private const string UserNameKey = "UserName";
         private const string PasswordKey = "Password";
 
@@ -20,6 +21,16 @@ namespace IRCCloud
         internal static void SetRunUnderLockScreen(bool runUnderLockScreen)
         {
             IsolatedStorageSettings.ApplicationSettings[RunUnderLockScreenKey] = runUnderLockScreen;
+        }
+
+        internal static bool GetPushNotifications()
+        {
+            return IsolatedStorageSettings.ApplicationSettings.Contains(PushNotificationsKey) && (bool)IsolatedStorageSettings.ApplicationSettings[PushNotificationsKey];
+        }
+
+        internal static void SetPushNotifications(bool pushNotifications)
+        {
+            IsolatedStorageSettings.ApplicationSettings[PushNotificationsKey] = pushNotifications;
         }
 
         internal static string GetUserName()

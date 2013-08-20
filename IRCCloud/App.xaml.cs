@@ -25,6 +25,7 @@ namespace IRCCloud
         public PhoneApplicationFrame RootFrame { get; private set; }
 
         public IRCCloudConnection Connection { get; private set; }
+        public PushNotificationsManager PushNotifications { get; private set; }
 
         /// <summary>
         /// Constructor for the Application object.
@@ -67,6 +68,7 @@ namespace IRCCloud
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             Connection = new IRCCloudConnection();
+            PushNotifications = new PushNotificationsManager();
 
             // Check if user wants app to run under lock screen
             if (Settings.GetRunUnderLockScreen())
@@ -76,6 +78,11 @@ namespace IRCCloud
             else
             {
                 PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Enabled;
+            }
+
+            if (Settings.GetPushNotifications())
+            {
+                PushNotifications.Register();
             }
         }
 

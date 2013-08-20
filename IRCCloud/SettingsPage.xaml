@@ -35,6 +35,12 @@
                 Checked="LockScreenEnabledToggleSwitch_Checked"
                 Unchecked="LockScreenEnabledToggleSwitch_Unchecked"
                 Margin="0,0,0,0" />
+            <toolkit:ToggleSwitch
+                x:Name="PushNotificationsToggle"
+                Header="Enable Push Notifications"
+                Checked="PushNotificationsToggle_Checked"
+                Unchecked="PushNotificationsToggle_Unchecked"
+                Margin="0,100,0,0" />
         </Grid>
     </Grid>
 
