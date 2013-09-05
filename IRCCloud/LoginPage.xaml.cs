@@ -18,24 +18,27 @@ namespace IRCCloud
 {
     public partial class LoginPage : PhoneApplicationPage
     {
+        private Boolean hasAlreadyAutoLogin;
+
         // Constructor
         public LoginPage()
         {
             InitializeComponent();
 
-            if (Settings.GetUserName() != null) {
-                UserNameBox.Text = Settings.GetUserName();
-            }
-
-            if (Settings.GetPassword() != null)
+            Loaded += (s, e) =>
             {
-                PasswordBox.Password = Settings.GetPassword();
-            }
+                if (Settings.GetUserName() != null)
+                {
+                    UserNameBox.Text = Settings.GetUserName();
+                }
 
-            if (UserNameBox.Text.Length > 0 && PasswordBox.Password.Length > 0)
-            {
-                Login(UserNameBox.Text, PasswordBox.Password);
-            }
+                if (Settings.GetSession() != null && !hasAlreadyAutoLogin)
+                {
+                    hasAlreadyAutoLogin = true;
+                    SuccessfulLogin(Settings.GetSession());
+                }
+            };
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -44,7 +47,6 @@ namespace IRCCloud
             var password = PasswordBox.Password;
 
             Settings.SetUserName(userName);
-            Settings.SetPassword(password);
 
             Login(userName, password);
         }
@@ -81,18 +83,24 @@ namespace IRCCloud
                 if ((bool)o["success"])
                 {
                     String session = (string)o["session"];
-                    ((App)App.Current).Connection.Connect(session);
 
-                    if (Settings.GetPushNotifications())
-                    {
-                        ((App)App.Current).PushNotifications.Register();
-                    }
+                    Settings.SetSession(session);
 
-                    NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+                    SuccessfulLogin(session);
                 }
             }
         }
 
-        
+        private void SuccessfulLogin(string session)
+        {
+            ((App)App.Current).Connection.Connect(session);
+
+            if (Settings.GetPushNotifications())
+            {
+                ((App)App.Current).PushNotifications.Register();
+            }
+
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
     }
 }

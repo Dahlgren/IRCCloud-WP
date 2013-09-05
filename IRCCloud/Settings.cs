@@ -10,8 +10,8 @@ namespace IRCCloud
     {
         private const string RunUnderLockScreenKey = "RunUnderLockScreen";
         private const string PushNotificationsKey = "PushNotifications";
+        private const string SessionKey = "Session";
         private const string UserNameKey = "UserName";
-        private const string PasswordKey = "Password";
 
         internal static bool GetRunUnderLockScreen()
         {
@@ -32,6 +32,21 @@ namespace IRCCloud
         {
             IsolatedStorageSettings.ApplicationSettings[PushNotificationsKey] = pushNotifications;
         }
+        internal static string GetSession()
+        {
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(SessionKey))
+            {
+                return (String)IsolatedStorageSettings.ApplicationSettings[SessionKey];
+            }
+
+            return null;
+        }
+
+        internal static void SetSession(string session)
+        {
+            IsolatedStorageSettings.ApplicationSettings[SessionKey] = session;
+        }
+
 
         internal static string GetUserName()
         {
@@ -46,21 +61,6 @@ namespace IRCCloud
         internal static void SetUserName(string userName)
         {
             IsolatedStorageSettings.ApplicationSettings[UserNameKey] = userName;
-        }
-
-        internal static string GetPassword()
-        {
-            if (IsolatedStorageSettings.ApplicationSettings.Contains(PasswordKey))
-            {
-                return (String) IsolatedStorageSettings.ApplicationSettings[PasswordKey];
-            }
-
-            return null;
-        }
-
-        internal static void SetPassword(string password)
-        {
-            IsolatedStorageSettings.ApplicationSettings[PasswordKey] = password;
         }
     }
 }
