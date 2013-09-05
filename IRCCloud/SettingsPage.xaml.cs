@@ -18,6 +18,7 @@ namespace IRCCloud
 
             LockScreenToggle.IsChecked = Settings.GetRunUnderLockScreen();
             PushNotificationsToggle.IsChecked = Settings.GetPushNotifications();
+            UserMail.Text = Settings.GetUserName();
         }
 
         private void LockScreenEnabledToggleSwitch_Checked(object sender, RoutedEventArgs e)
@@ -39,6 +40,15 @@ namespace IRCCloud
         private void PushNotificationsToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             ((App)App.Current).PushNotifications.Unregister();
+        }
+
+        private void LogutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.SetPushNotifications(false);
+            Settings.SetSession(null);
+            Settings.SetUserName(null);
+
+            NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
         }
     }
 }
