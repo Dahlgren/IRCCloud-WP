@@ -27,6 +27,14 @@ namespace IRCCloud
 
             Loaded += (s, e) =>
             {
+                if (NavigationService.CanGoBack)
+                {
+                    while (NavigationService.RemoveBackEntry() != null)
+                    {
+                        NavigationService.RemoveBackEntry();
+                    }
+                }
+
                 if (Settings.GetUserName() != null)
                 {
                     UserNameBox.Text = Settings.GetUserName();

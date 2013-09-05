@@ -22,8 +22,19 @@ namespace IRCCloud
         {
             InitializeComponent();
 
-            ((App)App.Current).Connection.OnServersUpdate += connection_serversUpdated;
-            connection_serversUpdated(this, EventArgs.Empty);
+            Loaded += (s, e) =>
+            {
+                if (NavigationService.CanGoBack)
+                {
+                    while (NavigationService.RemoveBackEntry() != null)
+                    {
+                        NavigationService.RemoveBackEntry();
+                    }
+                }
+
+                ((App)App.Current).Connection.OnServersUpdate += connection_serversUpdated;
+                connection_serversUpdated(this, EventArgs.Empty);
+            };
         }
 
         void connection_serversUpdated(object sender, EventArgs args)
