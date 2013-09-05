@@ -35,11 +35,13 @@ namespace IRCCloud
         private void PushNotificationsToggle_Checked(object sender, RoutedEventArgs e)
         {
             ((App)App.Current).PushNotifications.Register();
+            Settings.SetPushNotifications(true);
         }
 
         private void PushNotificationsToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             ((App)App.Current).PushNotifications.Unregister();
+            Settings.SetPushNotifications(false);
         }
 
         private void LogutButton_Click(object sender, RoutedEventArgs e)
