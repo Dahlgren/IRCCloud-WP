@@ -79,11 +79,6 @@ namespace IRCCloud
             {
                 PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Enabled;
             }
-
-            if (Settings.GetPushNotifications())
-            {
-                PushNotifications.Register();
-            }
         }
 
         // Code to execute when the application is activated (brought to foreground)

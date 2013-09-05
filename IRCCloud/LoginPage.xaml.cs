@@ -82,6 +82,12 @@ namespace IRCCloud
                 {
                     String session = (string)o["session"];
                     ((App)App.Current).Connection.Connect(session);
+
+                    if (Settings.GetPushNotifications())
+                    {
+                        ((App)App.Current).PushNotifications.Register();
+                    }
+
                     NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
                 }
             }
