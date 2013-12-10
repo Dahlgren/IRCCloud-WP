@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using SharpGIS;
 using WebSocket4Net;
 
 namespace IRCCloudLibrary
@@ -128,7 +129,7 @@ namespace IRCCloudLibrary
 
         private void FetchOOB(String url)
         {
-            WebClient webClient = new WebClient();
+            GZipWebClient webClient = new GZipWebClient();
             webClient.Headers["Cookie"] = "session=" + _session;
             webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(oob_DownloadComplete);
             webClient.DownloadStringAsync(new Uri("https://www.irccloud.com" + url, UriKind.Absolute));
