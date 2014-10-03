@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using IRCCloudLibrary;
 using Microsoft.Phone.Controls;
 using System.Diagnostics;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace IRCCloud
 {
@@ -45,6 +35,11 @@ namespace IRCCloud
                     hasAlreadyAutoLogin = true;
                     SuccessfulLogin(Settings.GetSession());
                 }
+
+                if (((App) App.Current).Connection != null)
+                {
+                    ((App) App.Current).Connection.LoginEventHandler += LoginEvent;
+                }
             };
             
         }
@@ -63,19 +58,10 @@ namespace IRCCloud
         {
             LoginButton.IsEnabled = false;
 
-            WebClient webClient = new WebClient();
-
-            StringBuilder postData = new StringBuilder();
-            postData.AppendFormat("{0}={1}", "email", HttpUtility.UrlEncode(username));
-            postData.AppendFormat("&{0}={1}", "password", HttpUtility.UrlEncode(password));
-
-            webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-            webClient.Headers[HttpRequestHeader.ContentLength] = postData.Length.ToString();
-            webClient.UploadStringCompleted += new UploadStringCompletedEventHandler(webClient_UploadStringCompleted);
-            webClient.UploadStringAsync(new Uri("https://www.irccloud.com/chat/login", UriKind.Absolute), "POST", postData.ToString());
+            ((App) App.Current).Connection.Login(username, password);
         }
 
-        void webClient_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
+        void LoginEvent(object sender, LoginEventArgs e)
         {
             LoginButton.IsEnabled = true;
 
@@ -85,27 +71,25 @@ namespace IRCCloud
             }
             else
             {
-                Debug.WriteLine(e.Result);
-                JObject o = JObject.Parse(e.Result);
-
-                if ((bool)o["success"])
-                {
-                    String session = (string)o["session"];
-
-                    Settings.SetSession(session);
-
-                    SuccessfulLogin(session);
-                }
+                Debug.WriteLine(e.Session);
+                SuccessfulLogin(e.Session);
             }
         }
 
         private void SuccessfulLogin(string session)
         {
+            Settings.SetSession(session);
+
             ((App)App.Current).Connection.Connect(session);
 
             if (Settings.GetPushNotifications())
             {
                 ((App)App.Current).PushNotifications.Register();
+            }
+
+            if (((App)App.Current).Connection != null)
+            {
+                ((App)App.Current).Connection.LoginEventHandler -= LoginEvent;
             }
 
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));

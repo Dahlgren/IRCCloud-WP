@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,8 @@ namespace IRCCloudLibrary
         private long _lastEventId = 0;
         private String _session;
         private WebSocket _websocket;
+        private String _username;
+        private String _password;
 
         public IRCCloudConnection()
         {
@@ -158,6 +161,79 @@ namespace IRCCloudLibrary
             }
         }
 
+        public void Login(String username, String password)
+        {
+            _username = username;
+            _password = password;
+
+            var webClient = new GZipWebClient();
+
+            webClient.UploadStringCompleted += FormTokenCompleted;
+            webClient.UploadStringAsync(new Uri("https://www.irccloud.com/chat/auth-formtoken", UriKind.Absolute), "POST");
+        }
+
+        private void FormTokenCompleted(object sender, UploadStringCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                Debug.WriteLine(e.Error);
+            }
+            else
+            {
+                Debug.WriteLine(e.Result);
+                JObject o = JObject.Parse(e.Result);
+
+                if ((bool)o["success"])
+                {
+                    String token = (string)o["token"];
+
+                    var webClient = new GZipWebClient();
+
+                    var postData = new StringBuilder();
+                    postData.AppendFormat("{0}={1}", "email", HttpUtility.UrlEncode(_username));
+                    postData.AppendFormat("&{0}={1}", "password", HttpUtility.UrlEncode(_password));
+                    postData.AppendFormat("&{0}={1}", "token", HttpUtility.UrlEncode(token));
+
+                    webClient.Headers["x-auth-formtoken"] = token;
+                    webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                    webClient.Headers[HttpRequestHeader.ContentLength] = postData.Length.ToString();
+                    webClient.UploadStringCompleted += LoginCompleted;
+                    webClient.UploadStringAsync(new Uri("https://www.irccloud.com/chat/login", UriKind.Absolute), "POST",
+                        postData.ToString());
+                }
+            }
+        }
+
+        private void LoginCompleted(object sender, UploadStringCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                if (LoginEventHandler != null)
+                {
+                    var loginEvent = new LoginEventArgs();
+                    loginEvent.Error = e.Error;
+                    LoginEventHandler(this, loginEvent);
+                }
+            }
+            else
+            {
+                Debug.WriteLine(e.Result);
+                JObject o = JObject.Parse(e.Result);
+
+                if ((bool)o["success"])
+                {
+                    String session = (string)o["session"];
+
+                    if (LoginEventHandler != null)
+                    {
+                        var loginEvent = new LoginEventArgs();
+                        loginEvent.Session = session;
+                        LoginEventHandler(this, loginEvent);
+                    }
+                }
+            }
+        }
+
         private void ProcessMessage(JObject o)
         {
             try
@@ -240,5 +316,13 @@ namespace IRCCloudLibrary
                 ProcessMessage(_msgQueue.Dequeue());
             }
         }
+
+        public event EventHandler<LoginEventArgs> LoginEventHandler;
+    }
+
+    public class LoginEventArgs : EventArgs
+    {
+        public System.Exception Error { get; set; }
+        public String Session { get; set; }
     }
 }
