@@ -17,7 +17,7 @@
     shell:SystemTray.IsVisible="True">
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <controls:Pivot x:Name="Pivot" Title="IRCCloud" ItemsSource="{Binding Servers}">
+        <controls:Pivot x:Name="Pivot" Title="Irkki" ItemsSource="{Binding Servers}">
             <controls:Pivot.HeaderTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding Name}" />

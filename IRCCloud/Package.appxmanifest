@@ -1,52 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-
-  <Identity Name="d07936bf-dffa-4895-b7b7-e03e6f176501"
-            Publisher="CN=bjorn"
-            Version="1.0.0.0" />
-
-  <mp:PhoneIdentity PhoneProductId="f7e6be24-2cd0-4ff4-b6b1-0f54c330dbb4" PhonePublisherId="280dc7c0-47c0-4f9a-bfcb-ba5366dedce8"/>
-
+  <Identity Name="d07936bf-dffa-4895-b7b7-e03e6f176501" Publisher="CN=bjorn" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="f7e6be24-2cd0-4ff4-b6b1-0f54c330dbb4" PhonePublisherId="280dc7c0-47c0-4f9a-bfcb-ba5366dedce8" />
   <Properties>
-    <DisplayName>IRCCloud</DisplayName>
-    <PublisherDisplayName>bjorn</PublisherDisplayName>
+    <DisplayName>Irkki</DisplayName>
+    <PublisherDisplayName>Björn Dahlgren</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-
   <Prerequisites>
     <OSMinVersion>6.3.1</OSMinVersion>
     <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
   </Prerequisites>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="xf7e6be24y2cd0y4ff4yb6b1y0f54c330dbb4x"
-        Executable="AGHost.exe"
-        EntryPoint="LoginPage.xaml">
-      <m3:VisualElements
-          DisplayName="IRCCloud"
-          Square150x150Logo="Assets\SquareTile150x150.png"
-          Square44x44Logo="Assets\Logo.png"
-          Description="IRCCloud"
-          ForegroundText="light"
-          BackgroundColor="#464646">
-        <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png"/>
+    <Application Id="xf7e6be24y2cd0y4ff4yb6b1y0f54c330dbb4x" Executable="AGHost.exe" EntryPoint="LoginPage.xaml">
+      <m3:VisualElements DisplayName="Irkki" Square150x150Logo="Assets\SquareTile150x150.png" Square44x44Logo="Assets\Logo.png" Description="Unofficial client for IRCCloud" ForegroundText="light" BackgroundColor="#464646">
+        <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png">
+        </m3:DefaultTile>
         <m3:SplashScreen Image="SplashScreenImage.jpg" />
       </m3:VisualElements>
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="AgHost.BackgroundTask">
           <BackgroundTasks>
-          <Task Type="systemEvent" />
+            <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
       </Extensions>
     </Application>
   </Applications>
-  <Capabilities>
-  </Capabilities>
   <Extensions>
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
