@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Tasks;
 
 namespace IRCCloud
 {
@@ -51,6 +52,17 @@ namespace IRCCloud
             Settings.SetUserName(null);
 
             NavigationService.Navigate(new Uri("/LoginPage.xaml", UriKind.Relative));
+        }
+
+        private void SendFeedbackButton_Click(object sender, RoutedEventArgs e)
+        {
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+
+            emailComposeTask.Subject = "Irkki Feedback";
+            emailComposeTask.Body = "Write Feedback Here";
+            emailComposeTask.To = "irkki@dahlgren.at";
+
+            emailComposeTask.Show();
         }
     }
 }
