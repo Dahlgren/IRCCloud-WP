@@ -67,11 +67,10 @@ namespace IRCCloud
 
             if (e.Error != null)
             {
-                Debug.WriteLine(e.Error);
+                MessageBox.Show(e.Error.Message);
             }
             else
             {
-                Debug.WriteLine(e.Session);
                 SuccessfulLogin(e.Session);
             }
         }

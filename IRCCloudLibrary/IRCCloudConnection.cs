@@ -13,8 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using SharpGIS;
 using WebSocket4Net;
+using System.Net.Http;
 
 namespace IRCCloudLibrary
 {
@@ -130,23 +130,26 @@ namespace IRCCloudLibrary
             }
         }
 
-        private void FetchOOB(String url)
+        private async void FetchOOB(String url)
         {
-            GZipWebClient webClient = new GZipWebClient();
-            webClient.Headers["Cookie"] = "session=" + _session;
-            webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(oob_DownloadComplete);
-            webClient.DownloadStringAsync(new Uri("https://www.irccloud.com" + url, UriKind.Absolute));
-        }
-
-        void oob_DownloadComplete(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Error != null)
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
             {
-                Debug.WriteLine(e.Error);
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+
+            var webClient = new HttpClient(handler);
+            webClient.DefaultRequestHeaders.Add("Cookie", "session=" + _session);
+            var response = await webClient.GetAsync("https://www.irccloud.com" + url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine(response.ReasonPhrase);
             }
             else
             {
-                JArray oobArr = JArray.Parse(e.Result);
+                var body = await response.Content.ReadAsStringAsync();
+                JArray oobArr = JArray.Parse(body);
 
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
@@ -161,64 +164,62 @@ namespace IRCCloudLibrary
             }
         }
 
-        public void Login(String username, String password)
+        public async void Login(String username, String password)
         {
             _username = username;
             _password = password;
 
-            var webClient = new GZipWebClient();
-
-            webClient.UploadStringCompleted += FormTokenCompleted;
-            webClient.UploadStringAsync(new Uri("https://www.irccloud.com/chat/auth-formtoken", UriKind.Absolute), "POST");
-        }
-
-        private void FormTokenCompleted(object sender, UploadStringCompletedEventArgs e)
-        {
-            if (e.Error != null)
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
             {
-                Debug.WriteLine(e.Error);
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+
+            var webClient = new HttpClient(handler);
+            var response = await webClient.PostAsync("https://www.irccloud.com/chat/auth-formtoken", new StringContent(""));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine(response.ReasonPhrase);
             }
             else
             {
-                Debug.WriteLine(e.Result);
-                JObject o = JObject.Parse(e.Result);
+                var body = await response.Content.ReadAsStringAsync();
+                JObject o = JObject.Parse(body);
 
                 if ((bool)o["success"])
                 {
                     String token = (string)o["token"];
 
-                    var webClient = new GZipWebClient();
+                    var content = new FormUrlEncodedContent(new[] 
+                    {
+                        new KeyValuePair<string, string>("email", _username),
+                        new KeyValuePair<string, string>("password", _password),
+                        new KeyValuePair<string, string>("token", token),
+                    });
 
-                    var postData = new StringBuilder();
-                    postData.AppendFormat("{0}={1}", "email", HttpUtility.UrlEncode(_username));
-                    postData.AppendFormat("&{0}={1}", "password", HttpUtility.UrlEncode(_password));
-                    postData.AppendFormat("&{0}={1}", "token", HttpUtility.UrlEncode(token));
-
-                    webClient.Headers["x-auth-formtoken"] = token;
-                    webClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                    webClient.Headers[HttpRequestHeader.ContentLength] = postData.Length.ToString();
-                    webClient.UploadStringCompleted += LoginCompleted;
-                    webClient.UploadStringAsync(new Uri("https://www.irccloud.com/chat/login", UriKind.Absolute), "POST",
-                        postData.ToString());
+                    webClient.DefaultRequestHeaders.Add("x-auth-formtoken", token);
+                    response = await webClient.PostAsync("https://www.irccloud.com/chat/login", content);
+                    LoginCompleted(response);
                 }
             }
         }
 
-        private void LoginCompleted(object sender, UploadStringCompletedEventArgs e)
+        private async void LoginCompleted(HttpResponseMessage response)
         {
-            if (e.Error != null)
+            if (!response.IsSuccessStatusCode)
             {
                 if (LoginEventHandler != null)
                 {
                     var loginEvent = new LoginEventArgs();
-                    loginEvent.Error = e.Error;
+                    loginEvent.Error = new System.Exception(response.ReasonPhrase);
                     LoginEventHandler(this, loginEvent);
                 }
             }
             else
             {
-                Debug.WriteLine(e.Result);
-                JObject o = JObject.Parse(e.Result);
+                var body = await response.Content.ReadAsStringAsync();
+                JObject o = JObject.Parse(body);
 
                 if ((bool)o["success"])
                 {
