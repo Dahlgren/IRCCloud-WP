@@ -12,12 +12,15 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
 using Microsoft.Phone.Tasks;
+using System.IO;
 
 namespace IRCCloud
 {
     public partial class BufferPage : PhoneApplicationPage
     {
         public IRCCloudLibrary.Buffer Buffer { get; private set; }
+
+        private PhotoChooserTask photoChooserTask;
 
         public BufferPage()
         {
@@ -71,6 +74,36 @@ namespace IRCCloud
             {
                 ((App)App.Current).Connection.SendMessage(InputBox.Text, Buffer);
                 InputBox.Text = "";
+            }
+        }
+
+        private void ApplicationBarUploadPhoto_Click(object sender, EventArgs e)
+        {
+            photoChooserTask = new PhotoChooserTask();
+            photoChooserTask.ShowCamera = true;
+            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+            photoChooserTask.Show();
+        }
+
+        private async void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                using (MemoryStream memo = new MemoryStream())
+                {
+                    e.ChosenPhoto.CopyTo(memo);
+
+                    byte[] imgArray = memo.ToArray();
+
+                    var response = await ((App)App.Current).ImgurClient.UploadImage(imgArray);
+                    imgArray = null;
+                    memo.Dispose();
+
+                    if (response.Success)
+                    {
+                        InputBox.Text += response.Image.Link;
+                    }
+                }
             }
         }
     }

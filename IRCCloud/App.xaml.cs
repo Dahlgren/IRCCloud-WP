@@ -27,6 +27,8 @@ namespace IRCCloud
         public IRCCloudConnection Connection { get; private set; }
         public PushNotificationsManager PushNotifications { get; private set; }
 
+        public ImgurClient ImgurClient { get; private set; }
+
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
@@ -69,6 +71,8 @@ namespace IRCCloud
         {
             Connection = new IRCCloudConnection();
             PushNotifications = new PushNotificationsManager();
+
+            ImgurClient = new ImgurClient("c068f0d04c394eb");
 
             // Check if user wants app to run under lock screen
             if (Settings.GetRunUnderLockScreen())

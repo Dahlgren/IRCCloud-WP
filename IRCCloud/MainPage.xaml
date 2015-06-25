@@ -40,7 +40,7 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton Click="ApplicationBarSettings_Click" IconUri="/Images/appbar.settings.png" Text="settings"/>
+            <shell:ApplicationBarIconButton Click="ApplicationBarSettings_Click" IconUri="/Assets/AppBar/feature.settings.png" Text="settings"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
