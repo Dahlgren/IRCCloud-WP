@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:irccloud="clr-namespace:IRCCloud"
+    xmlns:IRCCloudViews="clr-namespace:IRCCloud.Views;assembly=IRCCloud"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -23,29 +24,16 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="IRCCloud" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="Irkki" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock x:Name="BufferTitle" Text="buffer name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <irccloud:BufferListBox x:Name="ListBox" Margin="0,0,0,87" SelectionChanged="ListBox_SelectionChanged">
+            <irccloud:BufferListBox x:Name="ListBox" Margin="0,0,0,87">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="12,0,12,12">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Msg}" TextWrapping="Wrap" />
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=User}" Margin="12,0,0,0" />
-                        </Grid>
+                        <IRCCloudViews:MessageListItem DataContext="{Binding}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </irccloud:BufferListBox>

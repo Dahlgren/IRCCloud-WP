@@ -134,6 +134,9 @@
     <Compile Include="Views\BufferListItem.xaml.cs">
       <DependentUpon>BufferListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MessageListItem.xaml.cs">
+      <DependentUpon>MessageListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VisualTreeEnumeration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +171,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BufferListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessageListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
