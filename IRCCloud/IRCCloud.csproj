@@ -131,6 +131,9 @@
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BufferListItem.xaml.cs">
+      <DependentUpon>BufferListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VisualTreeEnumeration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BufferListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
