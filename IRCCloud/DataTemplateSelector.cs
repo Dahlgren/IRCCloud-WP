@@ -36,12 +36,22 @@ namespace IRCCloud
             set;
         }
 
+        public DataTemplate Console
+        {
+            get;
+            set;
+        }
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             IRCCloudLibrary.Buffer bufferItem = item as IRCCloudLibrary.Buffer;
             if (bufferItem != null)
             {
-                if (bufferItem.Archived)
+                if (bufferItem.Name == "*")
+                {
+                    return Console;
+                }
+                else if (bufferItem.Archived)
                 {
                     return Archived;
                 }

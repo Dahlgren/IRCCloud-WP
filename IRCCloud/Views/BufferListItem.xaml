@@ -12,14 +12,19 @@
     
     <Grid x:Name="LayoutRoot">
         <irccloud:BufferTemplateSelector Content="{Binding}">
+            <irccloud:BufferTemplateSelector.Console>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Server.Name}" Style="{StaticResource PhoneTextLargeStyle}" Foreground="Black" FontWeight="Bold" />
+                </DataTemplate>
+            </irccloud:BufferTemplateSelector.Console>
             <irccloud:BufferTemplateSelector.Active>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" />
+                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextLargeStyle}" Foreground="Black" />
                 </DataTemplate>
             </irccloud:BufferTemplateSelector.Active>
             <irccloud:BufferTemplateSelector.Archived>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextExtraLargeStyle}" Foreground="DarkGray" />
+                    <TextBlock Text="{Binding Path=Name}" Style="{StaticResource PhoneTextLargeStyle}" Foreground="DarkGray" />
                 </DataTemplate>
             </irccloud:BufferTemplateSelector.Archived>
         </irccloud:BufferTemplateSelector>

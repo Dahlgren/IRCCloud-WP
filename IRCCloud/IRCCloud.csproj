@@ -131,6 +131,8 @@
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Views\BufferListItem.xaml.cs">
       <DependentUpon>BufferListItem.xaml</DependentUpon>
     </Compile>
@@ -194,6 +196,7 @@
     <Content Include="Assets\AppBar\feature.settings.png" />
     <Content Include="Assets\AppBar\feature.camera.png" />
     <Content Include="Assets\ApplicationIcon.png" />
+    <Content Include="Assets\ic_drawer.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png" />
     <Content Include="Assets\Tiles\FlipCycleTileMedium.png" />
     <Content Include="Assets\Tiles\FlipCycleTileSmall.png" />
@@ -214,6 +217,10 @@
     <ProjectReference Include="..\IRCCloudLibrary\IRCCloudLibrary.csproj">
       <Project>{E72B40B8-E904-49DD-9626-19E4D37028B4}</Project>
       <Name>IRCCloudLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\windows-phone-navigation-drawer\DrawerLayout\DrawerLayout.csproj">
+      <Project>{03b54b5f-ffc3-40a3-94df-6ab81c446e32}</Project>
+      <Name>DrawerLayout</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

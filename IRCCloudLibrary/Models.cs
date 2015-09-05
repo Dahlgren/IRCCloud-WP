@@ -64,6 +64,16 @@ namespace IRCCloudLibrary
 
             Buffer otherBuffer = obj as Buffer;
 
+            if (this.Name == "*")
+            {
+                return -1;
+            }
+
+            if (otherBuffer.Name == "*")
+            {
+                return 1;
+            }
+
             if (Archived != otherBuffer.Archived)
             {
                 if (Archived)

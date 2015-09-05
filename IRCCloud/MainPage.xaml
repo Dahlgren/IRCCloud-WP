@@ -9,6 +9,8 @@
     xmlns:IRCCloudLibrary="clr-namespace:IRCCloudLibrary;assembly=IRCCloudLibrary" 
     xmlns:IRCCloudViews="clr-namespace:IRCCloud.Views;assembly=IRCCloud"
     xmlns:irccloud="clr-namespace:IRCCloud;assembly=IRCCloud"
+    xmlns:vm="clr-namespace:IRCCloud.ViewModels"
+    xmlns:drawerLayout="clr-namespace:DrawerLayout;assembly=DrawerLayout"
     x:Class="IRCCloud.MainPage" 
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -17,25 +19,50 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
+    <UserControl.DataContext>
+        <vm:MainPageViewModel />
+    </UserControl.DataContext>
+
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <controls:Pivot x:Name="Pivot" Title="Irkki" ItemsSource="{Binding Servers}">
-            <controls:Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <ContentControl Content="{Binding Name}" />
-                </DataTemplate>
-            </controls:Pivot.HeaderTemplate>
-            <controls:Pivot.ItemTemplate>
-                <DataTemplate>
-                    <ListBox ItemsSource="{Binding Path=SortedBuffers}" SelectionChanged="listBox_OnSelectionChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="TitleBar" Background="#1E72FF" Grid.Row="0" Height="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Image Margin="5"  x:Name="DrawerIcon"  Grid.Column="0" Source="/Assets/ic_drawer.png" HorizontalAlignment="Left" Tap="DrawerIcon_Tapped" />
+            <TextBlock Grid.Column="1" Text="{Binding CurrentBuffer.Name}" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
+        </Grid>
+
+        <drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1">
+            <Grid>
+                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                    <irccloud:BufferListBox ItemsSource="{Binding CurrentBuffer.Messages}" x:Name="ListBox" Margin="0,0,0,87">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <IRCCloudViews:BufferListItem DataContext="{Binding}" />
+                                <IRCCloudViews:MessageListItem DataContext="{Binding}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                    </ListBox>
-                </DataTemplate>
-            </controls:Pivot.ItemTemplate>
-        </controls:Pivot>
+                    </irccloud:BufferListBox>
+                    <TextBox x:Name="InputBox" TextWrapping="Wrap" Height="72" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
+                </Grid>
+            </Grid>
+
+            <Grid>
+                <ListBox ItemsSource="{Binding Buffers}" SelectedItem="{Binding Path=CurrentBuffer, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <IRCCloudViews:BufferListItem DataContext="{Binding}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </drawerLayout:DrawerLayout>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>

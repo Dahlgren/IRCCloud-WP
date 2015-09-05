@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRCCloud", "IRCCloud\IRCCloud.csproj", "{F7E6BE24-2CD0-4FF4-B6B1-0F54C330DBB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRCCloudLibrary", "IRCCloudLibrary\IRCCloudLibrary.csproj", "{E72B40B8-E904-49DD-9626-19E4D37028B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawerLayout", "windows-phone-navigation-drawer\DrawerLayout\DrawerLayout.csproj", "{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,18 @@ Global
 		{E72B40B8-E904-49DD-9626-19E4D37028B4}.Release|ARM.Build.0 = Release|ARM
 		{E72B40B8-E904-49DD-9626-19E4D37028B4}.Release|x86.ActiveCfg = Release|x86
 		{E72B40B8-E904-49DD-9626-19E4D37028B4}.Release|x86.Build.0 = Release|x86
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Debug|ARM.ActiveCfg = Debug|ARM
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Debug|ARM.Build.0 = Debug|ARM
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Debug|x86.ActiveCfg = Debug|x86
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Debug|x86.Build.0 = Debug|x86
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Release|ARM.ActiveCfg = Release|ARM
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Release|ARM.Build.0 = Release|ARM
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Release|x86.ActiveCfg = Release|x86
+		{03B54B5F-FFC3-40A3-94DF-6AB81C446E32}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
