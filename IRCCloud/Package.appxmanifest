@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="62414BjrnDahlgren.Irkki" Publisher="CN=CBD44951-A1D9-4B64-8C13-55B2654549D5" Version="1.0.0.0" />
+  <Identity Name="62414BjrnDahlgren.Irkki" Publisher="CN=CBD44951-A1D9-4B64-8C13-55B2654549D5" Version="1.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="f7e6be24-2cd0-4ff4-b6b1-0f54c330dbb4" PhonePublisherId="280dc7c0-47c0-4f9a-bfcb-ba5366dedce8" />
   <Properties>
     <DisplayName>Irkki</DisplayName>
