@@ -52,14 +52,14 @@ namespace IRCCloudLibrary
             List<KeyValuePair<string, string>> cookies = new List<KeyValuePair<string, string>>();
             cookies.Add(new KeyValuePair<string, string>("session", _session));
 
-            var url = "wss://www.irccloud.com";
+            var url = "wss://api.irccloud.com";
 
             if (lastEventId > 0)
             {
                 url += "?since_id=" + lastEventId;
             }
 
-            _websocket = new WebSocket(url, string.Empty, cookies, null, string.Empty, "https://www.irccloud.com", WebSocketVersion.Rfc6455);
+            _websocket = new WebSocket(url, string.Empty, cookies, null, string.Empty, "https://api.irccloud.com", WebSocketVersion.Rfc6455);
             _websocket.Opened += new EventHandler(websocket_Opened);
             _websocket.Closed += new EventHandler(websocket_Closed);
             _websocket.MessageReceived += new EventHandler<MessageReceivedEventArgs>(websocket_MessageReceived);
